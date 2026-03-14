@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risyadh - Personal Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ===== VARIABEL & RESET ===== */
+        :root {
+            --bg-color: #050505;
+            --card-bg: #111111;
+            --text-color: #ffffff;
+            --text-muted: #999999;
+            --main-color: #ff0033; 
+            --border-color: #222222;
+        }
+
+        * {
+            margin: 0; padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            text-decoration: none; list-style: none;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        .red-text { color: var(--main-color); }
+        .section-title { text-align: center; font-size: 36px; font-weight: 700; margin-bottom: 50px; }
+
+        /* ===== NAVBAR ===== */
+        header {
+            position: fixed; top: 0; width: 100%;
+            background: transparent;
+            z-index: 1000; padding: 25px 0;
+            transition: 0.3s;
+        }
+
+        header.scrolled {
+            background: rgba(5, 5, 5, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 0;
+        }
+
+        .nav-container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 28px; font-weight: 700; color: var(--text-color); }
+        
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a {
+            color: var(--text-muted); font-size: 14px; font-weight: 500;
+            text-transform: uppercase; transition: 0.3s; position: relative;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--main-color); }
+        
+        .menu-icon { display: none; font-size: 24px; cursor: pointer; color: white; }
+
+        /* ===== HOME SECTION ===== */
+        section { min-height: 100vh; padding: 100px 0; }
+        #home { display: flex; align-items: center; padding-top: 150px; }
+        
+        .home-content { display: flex; align-items: center; justify-content: space-between; gap: 50px; }
+        .home-text { flex: 1; }
+        .welcome { color: var(--text-muted); font-size: 18px; margin-bottom: 10px; display: block;}
+        .home-text h1 { font-size: 48px; line-height: 1.2; margin-bottom: 10px; }
+        
+        .typing-text-wrapper { font-size: 24px; font-weight: 500; margin-bottom: 20px; color: var(--text-muted); height: 36px;}
+        .typing-text { color: var(--main-color); border-right: 2px solid var(--main-color); animation: blink 0.7s infinite; }
+        @keyframes blink { 50% { border-color: transparent; } }
+
+        .home-text p { color: var(--text-muted); font-size: 15px; line-height: 1.6; margin-bottom: 30px; max-width: 500px; }
+        
+        .stats { display: flex; gap: 20px; margin-bottom: 30px; }
+        .stat-box { background: var(--card-bg); border: 1px solid var(--border-color); padding: 15px 20px; border-radius: 12px; text-align: center; flex: 1; transition: 0.3s; }
+        .stat-box:hover { transform: translateY(-5px); border-color: var(--main-color); }
+        .stat-box h3 { color: var(--main-color); font-size: 24px; }
+        .stat-box p { font-size: 12px; color: var(--text-muted); margin-top: 5px; }
+
+        .buttons { display: flex; gap: 15px; margin-bottom: 30px; }
+        .btn { padding: 12px 25px; border-radius: 30px; font-size: 15px; font-weight: 500; cursor: pointer; transition: 0.3s; border: none; display: inline-flex; align-items: center; gap: 10px; }
+        .btn-primary { background: var(--main-color); color: white; box-shadow: 0 0 15px rgba(255, 0, 51, 0.4); }
+        .btn-primary:hover { box-shadow: 0 0 25px rgba(255, 0, 51, 0.7); transform: scale(1.05); }
+        .btn-secondary { background: transparent; color: white; border: 1px solid var(--border-color); }
+        .btn-secondary:hover { border-color: white; transform: scale(1.05); }
+
+        .socials { display: flex; }
+        .socials a { display: inline-flex; width: 40px; height: 40px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 50%; justify-content: center; align-items: center; color: white; margin-right: 10px; transition: 0.3s; }
+        .socials a:hover { border-color: var(--main-color); color: var(--main-color); transform: translateY(-5px); }
+
+        .home-img { flex: 1; display: flex; justify-content: flex-end; position: relative; }
+        .img-wrapper { 
+            width: 350px; 
+            height: 450px; 
+            background: #111; 
+            border-radius: 20px; 
+            position: relative; 
+            box-shadow: 0 0 40px rgba(255, 0, 51, 0.2); 
+            overflow: visible;
+        }
+        
+        .hero-video { width: 100%; height: 100%; object-fit: cover; border-radius: 20px; position: absolute; top: 0; left: 0; z-index: 1; pointer-events: none; }
+
+        .floating-tag { position: absolute; background: var(--card-bg); border: 1px solid var(--border-color); padding: 8px 15px; border-radius: 8px; font-size: 13px; display: flex; align-items: center; gap: 8px; animation: float 3s ease-in-out infinite; z-index: 2; }
+        .tag-1 { top: 30px; left: -40px; animation-delay: 0s; }
+        .tag-2 { bottom: 40px; right: -20px; animation-delay: 1.5s; }
+        .floating-tag i { color: var(--main-color); }
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
+
+        /* ===== ABOUT & SERVICES ===== */
+        .service-grid, .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; } 
+        .service-card, .project-card { background: var(--card-bg); border: 1px solid var(--border-color); padding: 30px; border-radius: 15px; transition: 0.3s; position: relative; display: flex; flex-direction: column;}
+        .service-card:hover, .project-card:hover { border-color: var(--main-color); transform: translateY(-10px); }
+        .service-card i { font-size: 28px; color: var(--main-color); margin-bottom: 20px; display: block; }
+        .service-card h3, .project-card h3 { margin-bottom: 15px; font-size: 20px;}
+        .service-card p, .project-card p { color: var(--text-muted); font-size: 14px; margin-bottom: 20px; line-height: 1.6;}
+        
+        .tech-tags { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; flex-grow: 1; align-content: flex-start;}
+        .tech-tags span { background: rgba(255, 0, 51, 0.1); color: var(--main-color); border: 1px solid rgba(255, 0, 51, 0.2); padding: 5px 12px; border-radius: 5px; font-size: 12px; }
+
+        .view-project-btn { display: inline-flex; align-items: center; gap: 8px; margin-top: auto; color: var(--main-color); font-size: 14px; font-weight: 500; transition: 0.3s; width: fit-content; }
+        .view-project-btn:hover { color: white; text-decoration: underline; }
+
+        .skill-container { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; max-width: 800px; margin: 0 auto; }
+        .skill-badge { display: flex; align-items: center; gap: 10px; background: var(--card-bg); border: 1px solid var(--border-color); padding: 12px 25px; border-radius: 10px; transition: 0.3s; cursor: default;}
+        .skill-badge:hover { border-color: var(--main-color); color: var(--main-color); transform: scale(1.1); }
+
+        /* ===== CONTACT FORM ===== */
+        .contact-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+        .contact-text h2 { font-size: 28px; margin-bottom: 15px;}
+        .contact-text p { color: var(--text-muted); margin-bottom: 30px; font-size: 15px; line-height: 1.7;}
+        .info-item { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .info-item i { font-size: 24px; color: var(--main-color); }
+        
+        .contact-form input, .contact-form textarea { width: 100%; background: var(--card-bg); border: 1px solid var(--border-color); padding: 15px; margin-bottom: 15px; border-radius: 8px; color: white; outline: none; transition: 0.3s; }
+        .contact-form input:focus, .contact-form textarea:focus { border-color: var(--main-color); box-shadow: 0 0 10px rgba(255,0,51,0.2); }
+        .contact-form textarea { height: 120px; resize: none; }
+
+        .reveal { opacity: 0; transform: translateY(50px); transition: all 0.8s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* =========================================================
+           RESPONSIVE MOBILE - MINI DESKTOP LOOK
+           ========================================================= */
+        @media (max-width: 768px) {
+            /* 1. Header: Logo di Kiri, Menu di Kanan (Bisa discroll) */
+            .menu-icon { display: none !important; } /* Hilangkan titik tiga */
+            .nav-container { flex-direction: row; align-items: center; justify-content: space-between; gap: 10px;}
+            .logo { font-size: 18px; }
+            .nav-links { 
+                position: static; flex-direction: row; background: transparent;
+                width: auto; justify-content: flex-end; clip-path: none;
+                overflow-x: auto; white-space: nowrap; gap: 12px; padding-bottom: 0;
+            }
+            .nav-links::-webkit-scrollbar { display: none; }
+            .nav-links li { padding: 0; border: none; }
+            .nav-links a { font-size: 9px; }
+            header { padding: 15px 0; }
+            #home { padding-top: 100px; }
+
+            /* 2. Home: Teks di Kiri, Video di Kanan */
+            .home-content { flex-direction: row !important; text-align: left; gap: 10px; align-items: center; }
+            .home-text { flex: 1.2; }
+            .home-img { display: flex !important; flex: 0.8; justify-content: flex-end; margin-top: 0; }
+            
+            /* Teks Home Diperkecil */
+            .welcome { font-size: 10px; margin-bottom: 5px; }
+            .home-text h1 { font-size: 20px; margin-bottom: 5px; line-height: 1.2; }
+            .typing-text-wrapper { font-size: 11px; margin-bottom: 10px; height: 16px; }
+            .home-text p { font-size: 8px; margin-bottom: 15px; line-height: 1.5; }
+            
+            /* Statistik Home */
+            .stats { flex-wrap: nowrap; gap: 5px; margin-bottom: 15px; justify-content: flex-start; }
+            .stat-box { padding: 6px 4px; border-radius: 8px; flex: 1; }
+            .stat-box h3 { font-size: 12px; }
+            .stat-box p { font-size: 6px; }
+            
+            /* Tombol Home */
+            .buttons { flex-direction: row; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; justify-content: flex-start; }
+            .btn { padding: 6px 10px; font-size: 8px; }
+            .socials { justify-content: flex-start; }
+            .socials a { width: 22px; height: 22px; font-size: 9px; margin-right: 5px; }
+            
+            /* Ukuran Video di HP */
+            .img-wrapper { width: 100%; max-width: 140px; height: 190px; }
+            .floating-tag { font-size: 6px; padding: 4px 6px; border-radius: 4px; }
+            .tag-1 { top: 10px; left: -10px; } 
+            .tag-2 { bottom: 10px; right: -5px; }
+
+            /* 3. Layout Grid Services & Project (Dibuat 2 Kotak Menyamping) */
+            .service-grid, .project-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .service-card, .project-card { padding: 15px; border-radius: 10px; }
+            .service-card i { font-size: 16px; margin-bottom: 10px; }
+            .service-card h3, .project-card h3 { font-size: 12px; margin-bottom: 8px; }
+            .service-card p, .project-card p { font-size: 8px; margin-bottom: 10px; line-height: 1.4; }
+            .tech-tags span { font-size: 7px; padding: 3px 6px; }
+            .view-project-btn { font-size: 9px; }
+            
+            /* Skill Grid */
+            .skill-badge { font-size: 10px; padding: 8px 15px; }
+
+            /* 4. CONTACT: Tulisan di Kiri, Form di Kanan */
+            .contact-wrapper { grid-template-columns: 1fr 1fr !important; gap: 15px; } 
+            .contact-text h2, .contact-form-container h2 { font-size: 16px; margin-bottom: 10px; }
+            .contact-text p { font-size: 8px; margin-bottom: 15px; line-height: 1.4; }
+            .info-item { gap: 8px; margin-bottom: 10px; }
+            .info-item i { font-size: 14px; }
+            .info-item h4 { font-size: 10px !important; margin-bottom: 2px !important;}
+            .info-item span { font-size: 8px !important; }
+            
+            /* Form Send Email/WA */
+            .contact-form input, .contact-form textarea { padding: 8px; font-size: 9px; margin-bottom: 8px; }
+            .contact-form textarea { height: 80px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="header">
+        <div class="container nav-container">
+            <a href="#" class="logo">Risy<span class="red-text">adh</span></a>
+            <i class="fa-solid fa-bars menu-icon" id="menu-icon"></i>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#home" class="nav-item active">Home</a></li>
+                <li><a href="#about" class="nav-item">About</a></li>
+                <li><a href="#service" class="nav-item">Service</a></li>
+                <li><a href="#project" class="nav-item">Project</a></li>
+                <li><a href="#skill" class="nav-item">Skill</a></li>
+                <li><a href="#contact" class="nav-item">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <section id="home">
+        <div class="container home-content reveal">
+            <div class="home-text">
+                <span class="welcome">Welcome</span>
+                <h1>Hello Everyone I'm <span class="red-text">Risyadh</span></h1>
+                <div class="typing-text-wrapper">And I'm a <span class="typing-text" id="typewriter"></span></div>
+                <p>I am a web developer focused on building modern, responsive, and efficient websites. With a growing expertise in HTML, CSS, and JavaScript.</p>
+                
+                <div class="stats">
+                    <div class="stat-box"><h3><span class="counter" data-target="40">0</span>+</h3><p>Project Completed</p></div>
+                    <div class="stat-box"><h3><span class="counter" data-target="1">0</span>+</h3><p>Years Experience</p></div>
+                    <div class="stat-box"><h3><span class="counter" data-target="0">0</span>+</h3><p>Happy Clients</p></div>
+                </div>
+
+                <div class="buttons">
+                    <button class="btn btn-primary" onclick="document.getElementById('contact').scrollIntoView();">Hire me <i class="fa-solid fa-arrow-right"></i></button>
+                    <a href="cv-risyadh.pdf" download class="btn btn-secondary">Download CV</a>
+                </div>
+
+                <div class="socials">
+                    <a href="#"><i class="fa-brands fa-github"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+                </div>
+            </div>
+            
+            <div class="home-img">
+                <div class="img-wrapper">
+                    <video class="hero-video" autoplay loop muted playsinline>
+                        <source src="https://media.discordapp.net/attachments/1473375833887604767/1482243601886085192/ssstik.io_yen123412_livewallpaper_1773464763591.mp4?ex=69b63e6d&is=69b4eced&hm=7a4714a8b8c0c8fda64f934ffab92b3b142a34a9ce07f619c85a2f9f7b0463e1&" type="video/mp4">
+                        Browser Anda tidak mendukung tag video.
+                    </video>
+
+                    <div class="floating-tag tag-1"><i class="fa-solid fa-mobile-screen"></i> Responsive</div>
+                    <div class="floating-tag tag-2"><i class="fa-solid fa-code"></i> Clean code</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container reveal">
+            <h2 class="section-title">About me</h2>
+            <div style="text-align: center; max-width: 800px; margin: 0 auto;">
+                <p style="color: var(--text-muted); line-height: 1.8; margin-bottom: 30px;">Hi, my name is Risyadh. I am a web developer and creative designer passionate about building digital experiences that are not only functional but also aesthetic. I believe that great work is born from a combination of precise logic and boundless creativity. My journey in website creation began with a deep curiosity about how websites can be interactive and dynamic.</p>
+                <a href="cv-risyadh.pdf" download class="btn btn-secondary"><i class="fa-solid fa-download"></i> Download CV</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="service">
+        <div class="container reveal">
+            <h2 class="section-title">My Services</h2>
+            <div class="service-grid">
+                <div class="service-card">
+                    <i class="fa-solid fa-code"></i>
+                    <h3>Web Development</h3>
+                    <p>Crafting high-performance, responsive, and SEO-friendly websites using the latest frameworks.</p>
+                    <div class="tech-tags">
+                        <span>React</span> <span>Next.js</span> <span>Deployment</span>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <i class="fa-solid fa-pen-nib"></i>
+                    <h3>UI/UX Designer</h3>
+                    <p>Designing intuitive and visually stunning user interfaces that focus on seamless user experience.</p>
+                    <div class="tech-tags">
+                        <span>Figma</span> <span>Canva</span>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <h3>IT Support & Security</h3>
+                    <p>Providing expert technical support and protecting your digital assets with advanced security.</p>
+                    <div class="tech-tags">
+                        <span>Repair</span> <span>Hardware</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="project">
+        <div class="container reveal">
+            <h2 class="section-title">Latest Project</h2>
+            <div class="project-grid">
+                
+                <div class="project-card">
+                    <div style="font-size: 40px; color: var(--main-color); margin-bottom: 15px;"><i class="fa-solid fa-calculator"></i></div>
+                    <h3>Calculator</h3>
+                    <p>Calculator that has a display like on ios, this project is very simple</p>
+                    <div class="tech-tags">
+                        <span>Html</span> <span>Css</span> <span>Javascript</span>
+                    </div>
+                    <a href="https://github.com/akun-github-kamu/calculator" target="_blank" class="view-project-btn">
+                        View Project <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </div>
+
+                <div class="project-card">
+                    <div style="font-size: 40px; color: var(--main-color); margin-bottom: 15px;"><i class="fa-solid fa-gamepad"></i></div>
+                    <h3>Block Blast Web</h3>
+                    <p>A web-based puzzle game mimicking the popular block blast app mechanics.</p>
+                    <div class="tech-tags">
+                        <span>Html</span> <span>Css</span> <span>Javascript</span>
+                    </div>
+                    <a href="https://github.com/akun-github-kamu/block-blast" target="_blank" class="view-project-btn">
+                        View Project <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </div>
+
+                <div class="project-card">
+                    <div style="font-size: 40px; color: var(--main-color); margin-bottom: 15px;"><i class="fa-solid fa-store"></i></div>
+                    <h3>Top Up Store</h3>
+                    <p>Responsive e-commerce website for digital top-ups and game credits.</p>
+                    <div class="tech-tags">
+                        <span>Html</span> <span>Css</span> <span>Javascript</span>
+                    </div>
+                    <a href="https://risadalfarisi837-ops.github.io/Risyadhal/" target="_blank" class="view-project-btn">
+                        View Project <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="skill">
+        <div class="container reveal">
+            <h2 class="section-title">My Skill</h2>
+            <div class="skill-container">
+                <div class="skill-badge"><i class="fa-brands fa-html5" style="color: #e34f26;"></i> HTML</div>
+                <div class="skill-badge"><i class="fa-brands fa-css3-alt" style="color: #1572b6;"></i> CSS</div>
+                <div class="skill-badge"><i class="fa-brands fa-js" style="color: #f7df1e;"></i> JavaScript</div>
+                <div class="skill-badge"><i class="fa-brands fa-wordpress" style="color: #21759b;"></i> WordPress</div>
+                <div class="skill-badge"><i class="fa-brands fa-python" style="color: #3776ab;"></i> Python</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container reveal">
+            <div class="contact-wrapper">
+                <div class="contact-text">
+                    <h2>Contact Me</h2>
+                    <p>Let's build something great together. Have a project in mind or just want to chat about the latest in web tech? I'm always open to discussing new opportunities.</p>
+                    
+                    <div class="info-item">
+                        <i class="fa-brands fa-whatsapp"></i>
+                        <div>
+                            <h4 style="font-size: 16px; color: white; font-weight: 600;">My Whatsapp</h4>
+                            <span style="color: var(--text-muted); font-size: 13px;">+628131505949</span>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fa-solid fa-map-location-dot"></i>
+                        <div>
+                            <h4 style="font-size: 16px; color: white; font-weight: 600;">My Address</h4>
+                            <span style="color: var(--text-muted); font-size: 13px;">Jawa Barat, Cirebon</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form-container">
+                    <h2 style="margin-bottom: 20px;">Send <span class="red-text">Email</span> / WA</h2>
+                    <form class="contact-form" id="waForm">
+                        <input type="text" id="waName" placeholder="Your name" required>
+                        <input type="email" id="waEmail" placeholder="Your email" required>
+                        <textarea id="waMessage" placeholder="whats up bro" required></textarea>
+                        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;">Kirim</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Hamburger Menu Logic (tetap ada buat jaga-jaga kalau dibutuhkan layarnya sangat-sangat kecil)
+        const menuIcon = document.getElementById('menu-icon');
+        const navLinks = document.getElementById('nav-links');
+        
+        menuIcon.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuIcon.classList.toggle('fa-xmark');
+            menuIcon.classList.toggle('fa-bars');
+        });
+
+        document.querySelectorAll('.nav-item').forEach(n => n.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            menuIcon.classList.replace('fa-xmark', 'fa-bars');
+        }));
+
+        const header = document.getElementById('header');
+        const sections = document.querySelectorAll('section');
+        const navItems = document.querySelectorAll('.nav-item');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) { header.classList.add('scrolled'); } 
+            else { header.classList.remove('scrolled'); }
+
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - sectionHeight / 3)) { current = section.getAttribute('id'); }
+            });
+
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('href').includes(current)) { item.classList.add('active'); }
+            });
+        });
+
+        const reveals = document.querySelectorAll('.reveal');
+        const revealOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+        
+        const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target);
+            });
+        }, revealOptions);
+
+        reveals.forEach(reveal => { revealOnScroll.observe(reveal); });
+
+        const texts = ["Web Developer", "UI/UX Designer", "Creative Thinker"];
+        let count = 0; let index = 0;
+        let currentText = ""; let letter = "";
+        
+        (function type() {
+            if (count === texts.length) { count = 0; }
+            currentText = texts[count];
+            letter = currentText.slice(0, ++index);
+            document.getElementById('typewriter').textContent = letter;
+            
+            if (letter.length === currentText.length) {
+                count++; index = 0;
+                setTimeout(type, 2000);
+            } else {
+                setTimeout(type, 100);
+            }
+        }());
+
+        const counters = document.querySelectorAll('.counter');
+        const speed = 200; 
+
+        counters.forEach(counter => {
+            const updateCount = () => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText;
+                const inc = target / speed;
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + inc);
+                    setTimeout(updateCount, 15);
+                } else {
+                    counter.innerText = target;
+                }
+            };
+            const observer = new IntersectionObserver((entries) => {
+                if(entries[0].isIntersecting) { updateCount(); }
+            });
+            observer.observe(counter);
+        });
+
+        document.getElementById('waForm').addEventListener('submit', function(e) {
+            e.preventDefault(); 
+            const name = document.getElementById('waName').value;
+            const email = document.getElementById('waEmail').value;
+            const message = document.getElementById('waMessage').value;
+            const waNumber = "6281315059849"; 
+            const waText = `Halo Risyadh,%0A%0ASaya *${name}* (${email}).%0A%0A${message}`;
+            const waLink = `https://wa.me/${waNumber}?text=${waText}`;
+            window.open(waLink, '_blank');
+        });
+    </script>
+</body>
+  </html>
